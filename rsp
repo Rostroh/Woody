@@ -1,0 +1,9 @@
+wp:      0x7fffffffdde0
+hello:   0x7fffffffddf0 | woody: 0x7fffffffde00
+creator: 0x7fffffffddf0 | woody: 0x7fffffffde00
+                      CRASH
+creator: 0x7fffffffdcd0 | woody: 0x7fffffffdce0
+
+0x000055555555921b key (r8) klen (r9)
+0x000055555555931b text (rax)
+0x0000555555559322 len (rsi)
