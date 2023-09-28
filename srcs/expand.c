@@ -306,6 +306,7 @@ void		expand(t_pars *pam, int len)
 	uint32_t	off;
 	char		*expanded;
 
+	printf("we expand\n");
 	pam->len += SEGSZ;
 	expanded = (char *)malloc(sizeof(char) * pam->len + GSIZE + 18);
 	EHDR	*hdr;
