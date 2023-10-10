@@ -181,24 +181,36 @@ int				woody(t_pars pam)
 {
 	int			len;
 
+	printf("Checking file...\n");
 	if (open_file(&pam) < 0)
 		return (-1);
 	if (read_file(&pam) == -1)
 		return (-1);
 	if (check_elf(&pam) == -1)
 		return (-1);
+	printf("Checks are ok\n");
+	printf("Trying to find gap...\n");
 	if ((len = find_gap(&pam, pam.hdr)) < GSIZE)
 	{
 		expand(&pam);
 		memcpy(pam.content, &pam.hdr, sizeof(EHDR));
 	}
+	printf("Gap founded\n");
+	printf("Writing shellcode...\n");
 	write_shellcode(&pam, (uint8_t*)MESSAGE, sizeof(MESSAGE), pam.off_gap);
 	write_shellcode(&pam, (uint8_t*)PREP, sizeof(PREP), pam.off_gap + POFF);
 	write_shellcode(&pam, (uint8_t*)RC4, sizeof(RC4), pam.off_gap + ROFF);
 	write_shellcode(&pam, (uint8_t*)END, sizeof(END), pam.off_gap + EOFF);
 	ft_memcpy(pam.content + pam.off_gap + KOFF, pam.key, pam.klen);
+	printf("Shellcode written\n");
+	printf("Encrypting...\n");
 	encrypt(&pam);
+	printf("Encrypted\n");
+	printf("Patching addr...\n");
 	patch(&pam);
+	printf("Patched\n");
+	printf("Writing files\n");
 	write(pam.dst_fd, pam.content, pam.len);
+	printf("Done\n");
 	return (0);
 }

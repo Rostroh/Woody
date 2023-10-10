@@ -22,6 +22,7 @@ int				main(int ac, char **av)
 		return (error_input(av[0], "No file specified", F_OTHER));
 	param.memory_offset = 0;
 	param.fname = av[optind];
+	printf("Alive\n");
 	if (woody(param) == 0)
 		print_key(param.key, param.klen);
 	return (0);
