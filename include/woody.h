@@ -139,7 +139,8 @@ int			parser(t_pars *pam, char **arg, int n);
 /*
  *	rc4.c
 */
-uint8_t		*rc4(const char *plain, int plain_len, uint8_t *key, int klen);
+uint8_t		*rc4(const uint8_t *plain, int plain_len, uint8_t *key, int klen);
+//uint8_t		*rc4(const char *plain, int plain_len, uint8_t *key, int klen);
 
 /*
  *	woody.c

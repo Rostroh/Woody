@@ -36,12 +36,12 @@ uint8_t			ascii_to_hex(char c)
 		return (c - 'a' + 10);
 	if (c >= 'A' && c <= 'Z')
 		return (c - 'A' + 10);
+	return (0);
 }
-
+/*
 static int		find_pattern(const uint8_t *ptr, uint64_t pattern, int size)
 {
 	int		i;
-	int		j;
 	uint64_t	*tmp;
 
 	tmp = 0;
@@ -52,12 +52,11 @@ static int		find_pattern(const uint8_t *ptr, uint64_t pattern, int size)
 			return (i);
 	}
 	return (-1);
-}
+}*/
 
 static int		find_pattern32(const uint8_t *ptr, uint32_t pattern, int size)
 {
 	int		i;
-	int		j;
 	uint32_t	*tmp;
 
 	tmp = 0;
@@ -75,12 +74,9 @@ static int		find_pattern32(const uint8_t *ptr, uint32_t pattern, int size)
 */
 static void		patch_addr(t_pars *pam, uint32_t addr, int offset)
 {
-	uint32_t		vaddr;
-	uint64_t		vvaddr;
 	uint32_t		*res;
 
-	res = pam->content + pam->off_gap + POFF + offset;
-	vaddr = addr + pam->seg.p_vaddr + pam->off_gap - pam->seg.p_offset;
+	res = (uint32_t*)(pam->content + pam->off_gap + POFF + offset);
 	*res = addr;
 }
 
@@ -88,14 +84,13 @@ static void		patch_len(t_pars *pam, uint32_t len, int offset)
 {
 	uint32_t		*res;
 
-	res = pam->content + pam->off_gap + POFF + offset;
+	res = (uint32_t*)(pam->content + pam->off_gap + POFF + offset);
 	*res = len;
 }
 
 static void		patch(t_pars *pam)
 {
 	int				offset;
-	uint8_t			byte = 0;
 	EHDR			*temp;
 	unsigned int	relative_val;
 
@@ -147,7 +142,7 @@ int				write_payload(t_pars *pam)
 	const char	*payload = PAYLOAD;
 
 	j = 0;
-	for (int i = 0; i < sizeof(PAYLOAD); i++)
+	for (int i = 0; (unsigned long)i < sizeof(PAYLOAD); i++)
 	{
 		byte = byte << 4;
 		byte |= ascii_to_hex(payload[i]);
@@ -185,8 +180,6 @@ void			write_shellcode(t_pars *pam, const uint8_t *shellcode, int size, int offs
 int				woody(t_pars pam)
 {
 	int			len;
-	char		buff[BUFFLEN];
-	uint8_t		*cipher;
 
 	if (open_file(&pam) < 0)
 		return (-1);
@@ -199,10 +192,10 @@ int				woody(t_pars pam)
 		expand(&pam, len);
 		memcpy(pam.content, &pam.hdr, sizeof(EHDR));
 	}
-	write_shellcode(&pam, MESSAGE, sizeof(MESSAGE), pam.off_gap);
-	write_shellcode(&pam, PREP, sizeof(PREP), pam.off_gap + POFF);
-	write_shellcode(&pam, RC4, sizeof(RC4), pam.off_gap + ROFF);
-	write_shellcode(&pam, END, sizeof(END), pam.off_gap + EOFF);
+	write_shellcode(&pam, (uint8_t*)MESSAGE, sizeof(MESSAGE), pam.off_gap);
+	write_shellcode(&pam, (uint8_t*)PREP, sizeof(PREP), pam.off_gap + POFF);
+	write_shellcode(&pam, (uint8_t*)RC4, sizeof(RC4), pam.off_gap + ROFF);
+	write_shellcode(&pam, (uint8_t*)END, sizeof(END), pam.off_gap + EOFF);
 	ft_memcpy(pam.content + pam.off_gap + KOFF, pam.key, pam.klen);
 	encrypt(&pam);
 	patch(&pam);
