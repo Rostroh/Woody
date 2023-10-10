@@ -123,7 +123,6 @@ static void		patch(t_pars *pam)
 		printf("0xAAAAAAAA not found\n");
 	//printf("Decription offset 0x%X\n", temp->e_entry - pam->hdr.e_entry + (pam->sect.sh_offset - pam->hdr.e_entry));
 	//patch_addr(pam, temp->e_entry - pam->hdr.e_entry + (pam->sect.sh_offset - pam->hdr.e_entry)/* - pam->memory_offset*/, offset);
-	printf("Test offset 0x%X\n", temp->e_entry - pam->sect.sh_offset);
 	patch_addr(pam, temp->e_entry - pam->sect.sh_offset/* - pam->memory_offset*/, offset);
 	if ((offset = find_pattern32(pam->content + pam->off_gap + POFF, 0xBBBBBBBB, PSIZE)) < 0)
 		printf("0xBBBBBBBB not found\n");
@@ -138,7 +137,6 @@ static void		patch(t_pars *pam)
 
 static void		encrypt(t_pars *pam)
 {
-	printf("Encrypt from %lX to %lX\n", pam->sect.sh_offset + (pam->memory_offset == 0 ? 0 : sizeof(EPHR)), pam->sect.sh_offset + (pam->memory_offset == 0 ? 0 : sizeof(EPHR)) + pam->sect.sh_size);
 	rc4(pam->content + pam->sect.sh_offset + (pam->memory_offset == 0 ? 0 : sizeof(EPHR)), pam->sect.sh_size, pam->key, pam->klen);
 }
 
@@ -201,7 +199,6 @@ int				woody(t_pars pam)
 		expand(&pam, len);
 		memcpy(pam.content, &pam.hdr, sizeof(EHDR));
 	}
-	printf("Gap is at 0x%x\n", pam.off_gap);
 	write_shellcode(&pam, MESSAGE, sizeof(MESSAGE), pam.off_gap);
 	write_shellcode(&pam, PREP, sizeof(PREP), pam.off_gap + POFF);
 	write_shellcode(&pam, RC4, sizeof(RC4), pam.off_gap + ROFF);

@@ -21,9 +21,7 @@ LIB_DIR = ./libft
 LFT = $(LIB_DIR)/$(LIBFT)
 LIB = -L $(LIB_DIR) -l$(LIBFT:lib%.a=%)
 
-#OBJ_PATH = $(addprefix $(OBJ_DIR)/,$(SRC":.c=.o))
-
-FLG = -Wno-format #-Wall -Werror -Wextra
+FLG = -Wno-format -Wall -Werror -Wextra
 
 CC = gcc
 
@@ -38,11 +36,9 @@ $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
 $(OBJS): $(HEAD)
 
 $(NAME): $(OBJS)
-	#echo $(OBJS)
-	#echo $(OBJ_PATH)
 	rm -rf woody
-	#$(CC) $(FLG) $(OBJS) -lm -o $@ $(LIB)
 	nasm -felf64 $(ASM_DIR)/$(SRC_ASM)
+	@./update_script
 	clang $(ASM_DIR)/rc4.o $(OBJS) -o $@ $(LIB)
 
 clean:

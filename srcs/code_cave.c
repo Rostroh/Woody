@@ -39,7 +39,6 @@ int			section_sz(t_pars *pam)
 		if (ft_strcmp(name, ".fini") == 0)
 		{
 			shdr->sh_size += GSIZE + 0x1f;
-			printf("saddr = 0x%x - ssize = 0x%x - paddr = 0x%x - psize = 0x%x: 0x%x\n", shdr->sh_addr, shdr->sh_size, pam->seg.p_memsz, pam->seg.p_vaddr, shdr->sh_addr + shdr->sh_size - pam->seg.p_offset);
 			//TODO: jiicheichdsihcosdihceosihceisoc
 			//verif si sect in se
 			return (shdr->sh_addr + shdr->sh_size - pam->seg.p_offset);

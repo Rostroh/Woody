@@ -42,20 +42,17 @@ function update()
 	do
 		shellcode="$shellcode$i"
 	done
-	echo $shellcode
 	shellsize=$(for i in $(objdump -d $obj | grep "^ "| cut -f2); do echo $i; done | wc -l)
-	echo $shellsize
 	sed -i "s/$def.*/$def \"${shellcode}\"/" $inc
 	sed -i "s/$size.*/$size ${shellsize}/" $inc
 }
 
 if [ $# -ne 0 ]
 then
-	echo "hello pota"
 	init$1
 	update
 else
-	echo "all pota"
+	echo " --- Update all shellcode ---"
 	for i in {1..4}
 	do
 		init$i

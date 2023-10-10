@@ -30,19 +30,18 @@ static int				read_key(t_pars *pam, uint8_t *key)
 {
 	int			off;
 	int			j;
-	int			len;
 	uint8_t		mask;
 	uint32_t	res;
 
 	off = 0;
-	if (ft_strncmp(key, "0x", 2) == 0)
+	if (ft_strncmp((char*)key, "0x", 2) == 0)
 		off = 2;
-	if ((pam->klen = ((ft_strlen(key)) - off) / 2) > KEY_MSIZE / 2)
+	if ((pam->klen = ((ft_strlen((char*)key)) - off) / 2) > KEY_MSIZE / 2)
 		return (error_input(pam->execname, "Provided key is too long (max 256 bytes)", F_OTHER));
 	j = 0;
 	mask = 0;
 	pam->key = (uint8_t *)malloc(sizeof(uint8_t) * pam->klen);
-	for (int i = 0; i + off < ft_strlen(key); i++)
+	for (int i = 0; (size_t)(i + off) < ft_strlen((char*)key); i++)
 	{
 		res = ascii_val(key[i + off]);
 		if (res == 0xff)
@@ -86,7 +85,7 @@ int				parser(t_pars *pam, char **arg, int n)
 			case 'k':
 			{
 				kf = true;
-				if (read_key(pam, optarg) == -1)
+				if (read_key(pam, (unsigned char*)optarg) == -1)
 					return (-1);
 				break;
 			}

@@ -2,7 +2,7 @@
 
 static void		msg_noarg(char *name, char *input)
 {
-	ft_printf("Usage %s:\n%s [-k key] binary\n", name, name);
+	ft_printf("Usage %s:\n%s [-k key] binary\n", name, name, input);
 }
 
 static void		msg_noright(char *name, char *input)
