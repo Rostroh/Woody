@@ -110,8 +110,7 @@ cont:
 	xor edx, edx
 	mov rbx, r10
 	mov dl, [rsp - 0x208 + rbx]			;rdx = s[t]
-	mov rbx, rcx
-	xor dl, [rdi + rbx]				;k ^ txt[idx]
+	xor dl, [edi + ecx]				;k ^ txt[idx]
 	mov rax, rdi
 	mov [rax + rcx], dl
 	nop
