@@ -26,10 +26,8 @@ int			section_sz(t_pars *pam)
 	char	*name;
 	EHDR	hdr;
 	ESHR	*shdr;
-	ESHR	*tmp;
 	ESHR	*strtab;
 
-	tmp = &pam->sect;
 	hdr = pam->hdr;
 	strtab = (ESHR*)(pam->content + hdr.e_shoff + hdr.e_shentsize * hdr.e_shstrndx);
 	for (int i = 0; i < hdr.e_shnum; i++)
@@ -52,10 +50,10 @@ int			section_sz(t_pars *pam)
 
 int			find_gap(t_pars *pam, EHDR hdr)
 {
-	int		size_gap;
-	EPHR	*phdr;
-	int		end_seg;
-	int		closest_start;
+	int				size_gap;
+	EPHR			*phdr;
+	int				end_seg;
+	unsigned long 	closest_start;
 
 	size_gap = 0;
 	end_seg = 0;

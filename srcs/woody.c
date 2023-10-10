@@ -189,7 +189,7 @@ int				woody(t_pars pam)
 		return (-1);
 	if ((len = find_gap(&pam, pam.hdr)) < GSIZE)
 	{
-		expand(&pam, len);
+		expand(&pam);
 		memcpy(pam.content, &pam.hdr, sizeof(EHDR));
 	}
 	write_shellcode(&pam, (uint8_t*)MESSAGE, sizeof(MESSAGE), pam.off_gap);

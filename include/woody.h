@@ -129,7 +129,7 @@ int			error_input(char *name, char *input, int err);
 /*
  *	expand.c
 */
-void		expand(t_pars *pam, int len);
+void		expand(t_pars *pam);
 
 /*
  *	parser.c
