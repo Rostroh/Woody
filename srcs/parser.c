@@ -36,8 +36,8 @@ static int				read_key(t_pars *pam, uint8_t *key)
 	off = 0;
 	if (ft_strncmp((char*)key, "0x", 2) == 0)
 		off = 2;
-	if ((pam->klen = ((ft_strlen((char*)key)) - off) / 2) > KEY_MSIZE / 2)
-		return (error_input(pam->execname, "Provided key is too long (max 256 bytes)", F_OTHER));
+	if ((pam->klen = ((ft_strlen((char*)key)) - off) / 2) > KEY_MSIZE)
+		return (error_input(pam->execname, "Provided key is too long", F_OTHER));
 	j = 0;
 	mask = 0;
 	pam->key = (uint8_t *)malloc(sizeof(uint8_t) * pam->klen);
@@ -65,11 +65,7 @@ static int		read_kkey(t_pars *pam, char *key)
 		return (error_input(pam->execname, "Provided key is too long (max 256 bytes)", F_OTHER));
 	pam->key = (uint8_t *)malloc(sizeof(uint8_t) * pam->klen);
 	for (int i = 0; i < pam->klen; i++)
-	{
-		printf("%s %c", i == 0 ? "" : " ", key[i]);
 		pam->key[i] = key[i];
-	}
-	printf("\n");
 	return (0);
 }
 

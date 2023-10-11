@@ -38,21 +38,6 @@ uint8_t			ascii_to_hex(char c)
 		return (c - 'A' + 10);
 	return (0);
 }
-/*
-static int		find_pattern(const uint8_t *ptr, uint64_t pattern, int size)
-{
-	int		i;
-	uint64_t	*tmp;
-
-	tmp = 0;
-	for (i = 0; i < size; i++)
-	{
-		tmp = (uint64_t*)&ptr[i];
-		if (*tmp == pattern)
-			return (i);
-	}
-	return (-1);
-}*/
 
 static int		find_pattern32(const uint8_t *ptr, uint32_t pattern, int size)
 {
@@ -116,8 +101,6 @@ static void		patch(t_pars *pam)
 	}
 	if ((offset = find_pattern32(pam->content + pam->off_gap + POFF, 0xAAAAAAAA, PSIZE)) < 0)
 		printf("0xAAAAAAAA not found\n");
-	//printf("Decription offset 0x%X\n", temp->e_entry - pam->hdr.e_entry + (pam->sect.sh_offset - pam->hdr.e_entry));
-	printf("Patch for 0x%x (from 0x%x- 0x%x)\n", temp->e_entry - pam->sect.sh_offset, temp->e_entry, pam->sect.sh_offset);
 	if (pam->expanded == 1)
 		patch_addr(pam, temp->e_entry - pam->hdr.e_entry, offset);
 	else

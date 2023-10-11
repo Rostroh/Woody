@@ -157,7 +157,6 @@ void		expand(t_pars *pam)
 
 	pam->len += SEGSZ;
 	expanded = (char *)malloc(sizeof(char) * pam->len + GSIZE + 18);
-	printf("We expand\n");
 	pam->expanded = 1;
 	off = pam->hdr.e_phoff + pam->hdr.e_phnum * pam->hdr.e_phentsize;
 	expand_segment(pam, off);
