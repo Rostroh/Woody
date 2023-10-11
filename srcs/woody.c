@@ -117,8 +117,11 @@ static void		patch(t_pars *pam)
 	if ((offset = find_pattern32(pam->content + pam->off_gap + POFF, 0xAAAAAAAA, PSIZE)) < 0)
 		printf("0xAAAAAAAA not found\n");
 	//printf("Decription offset 0x%X\n", temp->e_entry - pam->hdr.e_entry + (pam->sect.sh_offset - pam->hdr.e_entry));
-	//patch_addr(pam, temp->e_entry - pam->hdr.e_entry + (pam->sect.sh_offset - pam->hdr.e_entry)/* - pam->memory_offset*/, offset);
-	patch_addr(pam, temp->e_entry - pam->sect.sh_offset/* - pam->memory_offset*/, offset);
+	printf("Patch for 0x%x (from 0x%x- 0x%x)\n", temp->e_entry - pam->sect.sh_offset, temp->e_entry, pam->sect.sh_offset);
+	if (pam->expanded == 1)
+		patch_addr(pam, temp->e_entry - pam->hdr.e_entry, offset);
+	else
+		patch_addr(pam, temp->e_entry - pam->sect.sh_offset/* - pam->memory_offset*/, offset);
 	if ((offset = find_pattern32(pam->content + pam->off_gap + POFF, 0xBBBBBBBB, PSIZE)) < 0)
 		printf("0xBBBBBBBB not found\n");
 	patch_len(pam, pam->sect.sh_size, offset);

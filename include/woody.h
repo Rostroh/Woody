@@ -104,6 +104,7 @@ typedef struct		s_pars
 	int				off_gap;
 	int				memory_offset;
 	EPHR			*new_seg;
+	int				expanded;
 }					t_pars;
 
 /*
