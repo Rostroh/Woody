@@ -36,7 +36,7 @@ $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
 $(OBJS): $(HEAD)
 
 $(NAME): $(OBJS)
-	rm -rf woody
+	@rm -rf woody
 	nasm -felf64 $(ASM_DIR)/$(SRC_ASM)
 	@./update_script
 	clang $(ASM_DIR)/rc4.o $(OBJS) -o $@ $(LIB)
@@ -46,6 +46,7 @@ clean:
 	@make $@ -C $(LIB_DIR)
 
 fclean: clean
+	@rm -rf woody
 	@rm -rf $(NAME)
 	@make $@ -C $(LIB_DIR)
 
